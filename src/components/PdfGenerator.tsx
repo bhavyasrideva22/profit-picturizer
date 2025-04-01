@@ -1,8 +1,7 @@
-
 import React, { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Download } from 'lucide-react';
-import { toast } from '@/components/ui/sonner';
+import { toast } from "sonner";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -187,8 +186,7 @@ const PdfGenerator = ({
     } catch (error) {
       console.error('Error generating PDF:', error);
       toast('Error generating PDF', {
-        description: 'There was a problem creating your document. Please try again.',
-        variant: 'destructive'
+        description: 'There was a problem creating your document. Please try again.'
       });
     } finally {
       // Clean up the temporary element

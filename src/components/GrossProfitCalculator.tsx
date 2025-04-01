@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Calculator, Download, Mail, RefreshCw, HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,13 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import ProfitMarginChart from './ProfitMarginChart';
 import PdfGenerator from './PdfGenerator';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-// Format currency in Indian Rupee
 const formatCurrency = (value: number): string => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -21,7 +19,6 @@ const formatCurrency = (value: number): string => {
   }).format(value);
 };
 
-// Format percentage
 const formatPercentage = (value: number): string => {
   return `${value.toFixed(2)}%`;
 };
@@ -29,18 +26,15 @@ const formatPercentage = (value: number): string => {
 const GrossProfitCalculator = () => {
   const isMobile = useIsMobile();
   
-  // State for inputs and calculated values
   const [revenue, setRevenue] = useState<string>('100000');
   const [costOfGoodsSold, setCostOfGoodsSold] = useState<string>('60000');
   const [email, setEmail] = useState<string>('');
   const [showEmailForm, setShowEmailForm] = useState<boolean>(false);
   const [isCalculated, setIsCalculated] = useState<boolean>(false);
   
-  // Calculated results
   const [grossProfit, setGrossProfit] = useState<number>(0);
   const [grossProfitMargin, setGrossProfitMargin] = useState<number>(0);
 
-  // Handle calculation
   const calculateProfitMargin = useCallback(() => {
     if (!revenue || !costOfGoodsSold) {
       toast('Please enter both revenue and cost of goods sold', {
@@ -79,7 +73,6 @@ const GrossProfitCalculator = () => {
       });
     }
 
-    // Calculate gross profit and margin
     const profit = revenueValue - costValue;
     const margin = (profit / revenueValue) * 100;
 
@@ -92,7 +85,6 @@ const GrossProfitCalculator = () => {
     });
   }, [revenue, costOfGoodsSold]);
 
-  // Reset calculator
   const resetCalculator = () => {
     setRevenue('100000');
     setCostOfGoodsSold('60000');
@@ -104,7 +96,6 @@ const GrossProfitCalculator = () => {
     });
   };
 
-  // Handle email sending
   const handleSendEmail = () => {
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       toast('Invalid email address', {
@@ -120,15 +111,12 @@ const GrossProfitCalculator = () => {
       return;
     }
 
-    // In a real app, you would send this to your backend
-    // For now, we'll just show a success message
     toast('Email sent!', {
       description: 'The calculation results have been sent to your email.',
     });
     setShowEmailForm(false);
   };
 
-  // Chart data
   const chartData = [
     { name: 'Revenue', value: parseFloat(revenue) || 0 },
     { name: 'COGS', value: parseFloat(costOfGoodsSold) || 0 },
@@ -138,7 +126,6 @@ const GrossProfitCalculator = () => {
   return (
     <div className="section-container animate-fade-in">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Calculator Card */}
         <Card className="lg:col-span-1 card-shadow">
           <CardHeader className="bg-dark-green text-white rounded-t-md">
             <div className="flex items-center justify-between">
@@ -266,7 +253,6 @@ const GrossProfitCalculator = () => {
           )}
         </Card>
 
-        {/* Results and Chart Card */}
         <Card className={`${isMobile ? '' : 'lg:col-span-2'} card-shadow h-full`}>
           <CardHeader className="bg-mint-green/20 rounded-t-md">
             <CardTitle className="text-xl font-semibold text-dark-green">
@@ -296,7 +282,6 @@ const GrossProfitCalculator = () => {
         </Card>
       </div>
 
-      {/* Explanation Section */}
       <div className="mt-12 bg-white rounded-lg p-6 card-shadow">
         <h2 className="text-2xl font-semibold text-dark-green mb-4">Understanding Gross Profit Margin</h2>
         
